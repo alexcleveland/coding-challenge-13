@@ -1,7 +1,7 @@
 // Task 2 Fetch Products from the API Using Fetch and Promises
-const aPIURL = `https://www.course-api.com/javascript-store-products`;
+const apiURL = `https://www.course-api.com/javascript-store-products`;
 
-fetch(aPIURL)
+fetch(apiURL)
 .then(response =>{
     if(response.ok) {
         throw new Error(`Network response was not ok`);
@@ -16,3 +16,12 @@ fetch(aPIURL)
     console.error(`Fetch error`, error);
 })
 
+// Task 3 Display Product Details Dynamically
+function displayProducts(data) {
+    const productcontainer = document.getElementById(`Container`);
+    data.forEach(product => {
+        const productDiv = document.createElement(`div`);
+        productDiv.clasdslist.add(`product`);
+productcontainer.appendChild(productDiv);
+    });
+}
