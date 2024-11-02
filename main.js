@@ -3,16 +3,18 @@ const apiURL = `https://www.course-api.com/javascript-store-products`;
 
 fetch(apiURL)
 .then(response =>{
-    if(response.ok) {
+    if(!response.ok) {
         throw new Error(`Network response was not ok`);
     }
     return response.json();
 })
-.then(data =>{
+.then(data => {
+    console.log(data);
     displayProducts(data);
 })
+//Task 4 Handle Errors Gracefully// This was already done with task 2.
 .catch(error =>{
-    document.getElementById(`Error`).innerText =`Failed to Load`;
+    document.getElementById(`Error Message`).innerText =`Failed to Load`;
     console.error(`Fetch error`, error);
 })
 
@@ -21,7 +23,25 @@ function displayProducts(data) {
     const productcontainer = document.getElementById(`Container`);
     data.forEach(product => {
         const productDiv = document.createElement(`div`);
-        productDiv.clasdslist.add(`product`);
-productcontainer.appendChild(productDiv);
+        productDiv.classList.add(`product`);
+        const { fields } = product;
+        if (!fields) {
+            console.error('Fields not found:', product);
+            return;
+        }
+        const productImage = document.createElement('img');
+        productImage.src = fields.image[0].url; 
+        productImage.alt = fields.name;
+
+        const productName = document.createElement('h2');
+        productName.textContent = product.fields.name;
+
+        const productPrice = document.createElement('p');
+        productPrice.textContent = `$${product.fields.price / 100}`;
+
+        productDiv.appendChild(productImage);
+        productDiv.appendChild(productName);
+        productDiv.appendChild(productPrice); 
+        productcontainer.appendChild(productDiv);
     });
 }
